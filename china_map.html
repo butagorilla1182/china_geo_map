@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>China GEO Map</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+body { margin:0; font-family:sans-serif; background:#f7f3ea; }
+.header { padding:16px; }
+.btn { display:block; margin:10px 16px; padding:14px; background:#2f6f5b; color:white; text-align:center; border-radius:10px; text-decoration:none; font-size:20px; }
+#map { height:75vh; width:100%; }
+</style>
+</head>
+<body>
+<div class="header">
+<h2>China GEO Map</h2>
+<div>Satellites: 62</div>
+</div>
+<div id="map"></div>
+<script>
+const data = [{"name": "ZHONGXING-9", "norad": "33051", "lat": "-0.1160", "lon": "92.3808", "alt_km": "35767.3"}, {"name": "BEIDOU-2 G1", "norad": "36287", "lat": "3.8027", "lon": "140.3758", "alt_km": "35790.0"}, {"name": "BEIDOU-2 G3", "norad": "36590", "lat": "0.0721", "lon": "79.7096", "alt_km": "35750.0"}, {"name": "BEIDOU-2 IGSO-1", "norad": "36828", "lat": "-50.6533", "lon": "119.2061", "alt_km": "35688.4"}, {"name": "BEIDOU-2 G4", "norad": "37210", "lat": "3.4814", "lon": "159.9431", "alt_km": "35798.5"}, {"name": "BEIDOU-2 IGSO-2", "norad": "37256", "lat": "1.6929", "lon": "107.8640", "alt_km": "35590.4"}, {"name": "BEIDOU-2 IGSO-3", "norad": "37384", "lat": "42.7434", "lon": "86.5973", "alt_km": "35895.5"}, {"name": "ZHONGXING-10", "norad": "37677", "lat": "-0.2652", "lon": "85.5362", "alt_km": "35770.8"}, {"name": "BEIDOU-2 IGSO-4", "norad": "37763", "lat": "-54.5658", "lon": "94.6687", "alt_km": "35279.9"}, {"name": "BEIDOU-2 IGSO-5", "norad": "37948", "lat": "13.5932", "lon": "96.4426", "alt_km": "35543.0"}, {"name": "BEIDOU-2 G5", "norad": "38091", "lat": "-1.6734", "lon": "58.8339", "alt_km": "35763.9"}, {"name": "APSTAR-7", "norad": "38107", "lat": "0.0139", "lon": "76.4804", "alt_km": "35774.5"}, {"name": "ZHONGXING-2A", "norad": "38352", "lat": "-0.0617", "lon": "98.2139", "alt_km": "35773.3"}, {"name": "BEIDOU-2 G6", "norad": "38953", "lat": "-0.5217", "lon": "84.0503", "alt_km": "35747.6"}, {"name": "ZHONGXING-12", "norad": "39017", "lat": "0.0029", "lon": "87.5066", "alt_km": "35771.8"}, {"name": "ZHONGXING-11", "norad": "39157", "lat": "0.0362", "lon": "97.8828", "alt_km": "35776.0"}, {"name": "FENGYUN 2G", "norad": "40367", "lat": "0.9088", "lon": "99.4916", "alt_km": "35796.5"}, {"name": "BEIDOU-3S IGSO-1S", "norad": "40549", "lat": "29.8023", "lon": "103.4623", "alt_km": "35693.0"}, {"name": "BEIDOU-3S IGSO-2S", "norad": "40938", "lat": "0.6384", "lon": "95.8176", "alt_km": "35521.6"}, {"name": "APSTAR-9", "norad": "40982", "lat": "0.0208", "lon": "141.9971", "alt_km": "35780.9"}, {"name": "ZHONGXING-2C", "norad": "41021", "lat": "-0.0001", "lon": "103.3464", "alt_km": "35792.4"}, {"name": "BEIDOU-2 IGSO-6", "norad": "41434", "lat": "32.3119", "lon": "76.8361", "alt_km": "36027.0"}, {"name": "BEIDOU-2 G7", "norad": "41586", "lat": "0.7048", "lon": "110.5828", "alt_km": "35757.6"}, {"name": "TIANLIAN 1-04", "norad": "41869", "lat": "0.8173", "lon": "176.7147", "alt_km": "35614.3"}, {"name": "FENGYUN 4A", "norad": "41882", "lat": "1.0165", "lon": "123.6560", "alt_km": "35805.2"}, {"name": "CHINASAT 16 (SJ-13)", "norad": "42662", "lat": "0.0207", "lon": "110.4939", "alt_km": "35796.7"}, {"name": "APSTAR-6C", "norad": "43450", "lat": "0.0226", "lon": "133.9999", "alt_km": "35787.8"}, {"name": "FENGYUN 2H", "norad": "43491", "lat": "-0.8698", "lon": "79.4677", "alt_km": "35791.1"}, {"name": "BEIDOU-2 IGSO-7", "norad": "43539", "lat": "-49.9761", "lon": "124.6589", "alt_km": "35541.7"}, {"name": "BEIDOU-3 G1", "norad": "43683", "lat": "2.0145", "lon": "160.0335", "alt_km": "35767.1"}, {"name": "ZHONGXING-2D", "norad": "43920", "lat": "0.0335", "lon": "130.0296", "alt_km": "35787.0"}, {"name": "ZHONGXING-6C", "norad": "44067", "lat": "0.0879", "lon": "130.5619", "alt_km": "35760.3"}, {"name": "TIANLIAN 2-01", "norad": "44076", "lat": "-0.1844", "lon": "77.0206", "alt_km": "35782.4"}, {"name": "BEIDOU-3 IGSO-1", "norad": "44204", "lat": "48.9829", "lon": "99.5666", "alt_km": "35889.9"}, {"name": "BEIDOU-2 G8", "norad": "44231", "lat": "1.3078", "lon": "144.5807", "alt_km": "35812.6"}, {"name": "BEIDOU-3 IGSO-2", "norad": "44337", "lat": "-42.9570", "lon": "136.1222", "alt_km": "35794.7"}, {"name": "BEIDOU-3 IGSO-3", "norad": "44709", "lat": "5.0261", "lon": "114.8997", "alt_km": "35620.1"}, {"name": "BEIDOU-3 G2", "norad": "45344", "lat": "0.7732", "lon": "80.0110", "alt_km": "35774.2"}, {"name": "BEIDOU-3 G3", "norad": "45807", "lat": "1.0693", "lon": "110.5812", "alt_km": "35777.0"}, {"name": "APSTAR-6D", "norad": "45863", "lat": "0.0322", "lon": "134.0472", "alt_km": "35781.4"}, {"name": "FENGYUN 4B", "norad": "48808", "lat": "0.0436", "lon": "104.6795", "alt_km": "35784.5"}, {"name": "TIANLIAN 1-05", "norad": "49011", "lat": "-1.5424", "lon": "16.8244", "alt_km": "35782.4"}, {"name": "ZHONGXING-2E", "norad": "49062", "lat": "0.0116", "lon": "98.0245", "alt_km": "35781.9"}, {"name": "CHINASAT 9B", "norad": "49125", "lat": "0.0177", "lon": "101.3975", "alt_km": "35778.4"}, {"name": "ZHONGXING-1D", "norad": "49505", "lat": "-0.0167", "lon": "130.1562", "alt_km": "35785.7"}, {"name": "TIANLIAN 2-02", "norad": "50005", "lat": "0.7149", "lon": "170.9674", "alt_km": "35790.4"}, {"name": "ZHONGXING-6D", "norad": "52255", "lat": "0.0221", "lon": "125.0797", "alt_km": "35787.1"}, {"name": "TIANLIAN 2-03", "norad": "53100", "lat": "-0.6357", "lon": "10.5757", "alt_km": "35781.0"}, {"name": "ZHONGXING-1E", "norad": "53813", "lat": "0.0008", "lon": "81.4153", "alt_km": "35785.4"}, {"name": "ZHONGXING-19", "norad": "54230", "lat": "-0.0188", "lon": "163.2001", "alt_km": "35779.7"}, {"name": "APSTAR-6E", "norad": "55239", "lat": "-0.0038", "lon": "133.9657", "alt_km": "35783.6"}, {"name": "ZHONGXING-26", "norad": "55686", "lat": "0.0555", "lon": "125.1341", "alt_km": "35771.0"}, {"name": "BEIDOU-3 G4", "norad": "56564", "lat": "0.2301", "lon": "139.9878", "alt_km": "35769.1"}, {"name": "ZHONGXING-6E", "norad": "58253", "lat": "0.0301", "lon": "115.5435", "alt_km": "35776.8"}, {"name": "ZHONGXING-3A", "norad": "60179", "lat": "0.0060", "lon": "101.5717", "alt_km": "35780.0"}, {"name": "ZHONGXING-4A", "norad": "60606", "lat": "-0.2133", "lon": "118.2278", "alt_km": "35783.7"}, {"name": "ZHONGXING-10R", "norad": "63075", "lat": "0.0003", "lon": "110.5119", "alt_km": "35776.7"}, {"name": "TIANLIAN 2-04", "norad": "63361", "lat": "2.3379", "lon": "80.3721", "alt_km": "35884.1"}, {"name": "TIANLIAN 2-05", "norad": "63662", "lat": "4.4619", "lon": "20.3432", "alt_km": "35778.2"}, {"name": "CHINASAT 3B", "norad": "64062", "lat": "0.0196", "lon": "167.3451", "alt_km": "35776.4"}, {"name": "CHINASAT 9C", "norad": "64470", "lat": "0.0192", "lon": "92.2063", "alt_km": "35772.7"}, {"name": "FENGYUN 4C", "norad": "67246", "lat": "0.0105", "lon": "132.9807", "alt_km": "35785.0"}];
+
+const map = L.map("map").setView([0, 120], 2);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  maxZoom: 6,
+  attribution: "OpenStreetMap"
+}).addTo(map);
+
+function catOf(r) {
+  const n = String(r.name || "").toUpperCase();
+  const lat = Math.abs(parseFloat(r.lat || "0"));
+
+  if (lat > 3) return ["#dd6b20", "Moving / inclined", "Large north-south movement. Possibly inclined orbit or relocation."];
+  if (n.includes("TIANLIAN")) return ["#2b6cb0", "Data relay", "Tianlian data relay satellite candidate."];
+  if (n.includes("CHINASAT") || n.includes("ZHONGXING") || n.includes("ZX-") || n.includes("APSTAR")) return ["#c53030", "PRC communications", "Chinese communications satellite candidate."];
+  if (n.includes("FENGYUN") || n.includes("FY-")) return ["#2f855a", "Weather / observation", "Fengyun weather or observation satellite candidate."];
+  if (n.includes("BEIDOU") || n.includes("COMPASS")) return ["#6b46c1", "Navigation", "BeiDou navigation satellite candidate."];
+  return ["#718096", "Unsorted", "Not classified yet."];
+}
+
+function popupOf(r) {
+  const c = catOf(r);
+  return "<b>" + r.name + "</b><br>"
+    + "<span style='display:inline-block;margin:4px 0;padding:2px 8px;border-radius:10px;background:" + c[0] + ";color:white;font-size:12px;'>" + c[1] + "</span><br>"
+    + "NORAD " + r.norad + "<br>"
+    + "Lat " + r.lat + "<br>"
+    + "Lon " + r.lon + "<br>"
+    + "Alt km " + r.alt_km + "<br><hr>"
+    + "<b>Country:</b> China candidate<br>"
+    + "<b>Category:</b> " + c[1] + "<br>"
+    + "<b>Mission note:</b> " + c[2];
+}
+
+data.forEach(r => {
+  const c = catOf(r);
+  L.circleMarker([parseFloat(r.lat), parseFloat(r.lon)], {
+    radius: 8,
+    color: "#1a202c",
+    weight: 1,
+    fillColor: c[0],
+    fillOpacity: 0.9
+  }).addTo(map).bindPopup(popupOf(r));
+});
+
+const legend = L.control({position:"bottomleft"});
+legend.onAdd = function() {
+  const div = L.DomUtil.create("div", "info legend");
+  div.style.background = "white";
+  div.style.padding = "10px";
+  div.style.borderRadius = "8px";
+  div.style.boxShadow = "0 1px 5px rgba(0,0,0,0.3)";
+  div.style.fontSize = "13px";
+  div.innerHTML =
+    "<b>Satellite category</b><br>" +
+    "<div><span style='display:inline-block;width:12px;height:12px;background:#2b6cb0;border-radius:50%;margin-right:6px;'></span>Data relay</div>" +
+    "<div><span style='display:inline-block;width:12px;height:12px;background:#c53030;border-radius:50%;margin-right:6px;'></span>PRC communications</div>" +
+    "<div><span style='display:inline-block;width:12px;height:12px;background:#2f855a;border-radius:50%;margin-right:6px;'></span>Weather / observation</div>" +
+    "<div><span style='display:inline-block;width:12px;height:12px;background:#6b46c1;border-radius:50%;margin-right:6px;'></span>Navigation</div>" +
+    "<div><span style='display:inline-block;width:12px;height:12px;background:#dd6b20;border-radius:50%;margin-right:6px;'></span>Moving / inclined</div>" +
+    "<div><span style='display:inline-block;width:12px;height:12px;background:#718096;border-radius:50%;margin-right:6px;'></span>Unsorted</div>";
+  return div;
+};
+legend.addTo(map);
+</script>
+</body>
+</html>
