@@ -2,7 +2,9 @@
 <html lang="ja">
 
 <head>
+
 <meta charset="utf-8">
+
 <title>中国 GEO 衛星マップ</title>
 
 <meta
@@ -18,6 +20,7 @@
 </script>
 
 <style>
+
 body {
     margin: 0;
     font-family: sans-serif;
@@ -32,25 +35,35 @@ body {
     height: 75vh;
     width: 100%;
 }
+
 </style>
 
 </head>
 
+
 <body>
 
 <div class="header">
+
 <h2>中国 GEO 衛星マップ</h2>
-<div>表示衛星数：61 機</div>
+
+<div>
+表示衛星数：61 機
 </div>
+
+</div>
+
 
 <div id="map"></div>
 
+
 <script>
 
-const data = [{"name": "ZHONGXING-9", "norad": "33051", "lat": "0.2357", "lon": "92.4090", "alt_km": "35795.6"}, {"name": "BEIDOU-2 G1", "norad": "36287", "lat": "-3.6654", "lon": "140.3294", "alt_km": "35784.3"}, {"name": "BEIDOU-2 G3", "norad": "36590", "lat": "0.4484", "lon": "79.6200", "alt_km": "35816.0"}, {"name": "BEIDOU-2 IGSO-1", "norad": "36828", "lat": "53.1861", "lon": "112.8748", "alt_km": "35940.2"}, {"name": "BEIDOU-2 G4", "norad": "37210", "lat": "-3.4793", "lon": "159.9812", "alt_km": "35776.8"}, {"name": "BEIDOU-2 IGSO-2", "norad": "37256", "lat": "-4.9034", "lon": "110.7116", "alt_km": "35969.0"}, {"name": "BEIDOU-2 IGSO-3", "norad": "37384", "lat": "-36.7616", "lon": "86.5694", "alt_km": "35684.9"}, {"name": "ZHONGXING-10", "norad": "37677", "lat": "0.4253", "lon": "85.5680", "alt_km": "35796.8"}, {"name": "BEIDOU-2 IGSO-4", "norad": "37763", "lat": "54.2401", "lon": "89.5888", "alt_km": "36354.4"}, {"name": "BEIDOU-2 IGSO-5", "norad": "37948", "lat": "-16.5962", "lon": "99.1729", "alt_km": "35994.6"}, {"name": "BEIDOU-2 G5", "norad": "38091", "lat": "2.0952", "lon": "58.6817", "alt_km": "35802.3"}, {"name": "APSTAR-7", "norad": "38107", "lat": "0.0128", "lon": "76.5407", "alt_km": "35789.7"}, {"name": "ZHONGXING-2A", "norad": "38352", "lat": "0.2333", "lon": "98.2722", "alt_km": "35791.3"}, {"name": "BEIDOU-2 G6", "norad": "38953", "lat": "1.0098", "lon": "84.0604", "alt_km": "35821.4"}, {"name": "ZHONGXING-12", "norad": "39017", "lat": "0.0156", "lon": "87.5038", "alt_km": "35793.8"}, {"name": "ZHONGXING-11", "norad": "39157", "lat": "-0.0179", "lon": "97.9228", "alt_km": "35796.2"}, {"name": "FENGYUN 2G", "norad": "40367", "lat": "-0.3469", "lon": "99.5929", "alt_km": "35769.5"}, {"name": "BEIDOU-3S IGSO-1S", "norad": "40549", "lat": "-33.1515", "lon": "104.4932", "alt_km": "35868.6"}, {"name": "BEIDOU-3S IGSO-2S", "norad": "40938", "lat": "-7.1288", "lon": "95.9930", "alt_km": "36049.2"}, {"name": "APSTAR-9", "norad": "40982", "lat": "-0.0159", "lon": "142.0135", "alt_km": "35793.7"}, {"name": "ZHONGXING-2C", "norad": "41021", "lat": "0.0450", "lon": "103.4805", "alt_km": "35776.4"}, {"name": "BEIDOU-2 IGSO-6", "norad": "41434", "lat": "-24.4617", "lon": "76.5606", "alt_km": "35573.9"}, {"name": "BEIDOU-2 G7", "norad": "41586", "lat": "-0.5468", "lon": "110.5082", "alt_km": "35812.3"}, {"name": "TIANLIAN 1-04", "norad": "41869", "lat": "-0.9324", "lon": "176.9557", "alt_km": "35961.0"}, {"name": "FENGYUN 4A", "norad": "41882", "lat": "-0.8404", "lon": "123.5842", "alt_km": "35763.1"}, {"name": "CHINASAT 16 (SJ-13)", "norad": "42662", "lat": "-0.0087", "lon": "110.5698", "alt_km": "35773.7"}, {"name": "APSTAR-6C", "norad": "43450", "lat": "-0.0289", "lon": "134.0242", "alt_km": "35785.7"}, {"name": "FENGYUN 2H", "norad": "43491", "lat": "1.2470", "lon": "79.0182", "alt_km": "35779.9"}, {"name": "BEIDOU-2 IGSO-7", "norad": "43539", "lat": "54.2559", "lon": "111.7412", "alt_km": "36135.7"}, {"name": "BEIDOU-3 G1", "norad": "43683", "lat": "-1.9197", "lon": "159.9146", "alt_km": "35812.5"}, {"name": "ZHONGXING-2D", "norad": "43920", "lat": "-0.0038", "lon": "130.0369", "alt_km": "35786.7"}, {"name": "ZHONGXING-6C", "norad": "44067", "lat": "-0.0609", "lon": "130.3287", "alt_km": "35826.5"}, {"name": "TIANLIAN 2-01", "norad": "44076", "lat": "0.3155", "lon": "77.0304", "alt_km": "35783.8"}, {"name": "BEIDOU-3 IGSO-1", "norad": "44204", "lat": "-46.6806", "lon": "101.1652", "alt_km": "35693.7"}, {"name": "BEIDOU-2 G8", "norad": "44231", "lat": "-1.2846", "lon": "144.3872", "alt_km": "35765.8"}, {"name": "BEIDOU-3 IGSO-2", "norad": "44337", "lat": "47.7162", "lon": "132.7089", "alt_km": "35807.7"}, {"name": "BEIDOU-3 G2", "norad": "45344", "lat": "-0.4294", "lon": "80.0527", "alt_km": "35791.7"}, {"name": "BEIDOU-3 G3", "norad": "45807", "lat": "-0.8481", "lon": "110.5250", "alt_km": "35790.8"}, {"name": "APSTAR-6D", "norad": "45863", "lat": "-0.0268", "lon": "134.0169", "alt_km": "35793.5"}, {"name": "FENGYUN 4B", "norad": "48808", "lat": "-0.0132", "lon": "104.6176", "alt_km": "35787.3"}, {"name": "TIANLIAN 1-05", "norad": "49011", "lat": "1.7092", "lon": "16.8110", "alt_km": "35780.1"}, {"name": "ZHONGXING-2E", "norad": "49062", "lat": "-0.0070", "lon": "98.0842", "alt_km": "35788.8"}, {"name": "CHINASAT 9B", "norad": "49125", "lat": "-0.0177", "lon": "101.4661", "alt_km": "35790.1"}, {"name": "ZHONGXING-1D", "norad": "49505", "lat": "-0.0044", "lon": "130.1804", "alt_km": "35785.4"}, {"name": "TIANLIAN 2-02", "norad": "50005", "lat": "-0.8133", "lon": "170.9875", "alt_km": "35786.5"}, {"name": "ZHONGXING-6D", "norad": "52255", "lat": "-0.0162", "lon": "125.0522", "alt_km": "35783.4"}, {"name": "TIANLIAN 2-03", "norad": "53100", "lat": "0.7870", "lon": "10.5856", "alt_km": "35784.6"}, {"name": "ZHONGXING-1E", "norad": "53813", "lat": "-0.0018", "lon": "81.4237", "alt_km": "35783.4"}, {"name": "ZHONGXING-19", "norad": "54230", "lat": "-0.0357", "lon": "163.1922", "alt_km": "35800.4"}, {"name": "APSTAR-6E", "norad": "55239", "lat": "-0.0033", "lon": "134.0582", "alt_km": "35787.9"}, {"name": "ZHONGXING-26", "norad": "55686", "lat": "-0.0491", "lon": "125.0270", "alt_km": "35802.6"}, {"name": "BEIDOU-3 G4", "norad": "56564", "lat": "-0.3430", "lon": "140.0869", "alt_km": "35801.7"}, {"name": "ZHONGXING-6E", "norad": "58253", "lat": "-0.0190", "lon": "115.4534", "alt_km": "35799.5"}, {"name": "ZHONGXING-3A", "norad": "60179", "lat": "0.0157", "lon": "101.5819", "alt_km": "35787.7"}, {"name": "ZHONGXING-4A", "norad": "60606", "lat": "0.0673", "lon": "118.2218", "alt_km": "35786.7"}, {"name": "ZHONGXING-10R", "norad": "63075", "lat": "-0.0002", "lon": "110.5657", "alt_km": "35793.9"}, {"name": "TIANLIAN 2-04", "norad": "63361", "lat": "-2.6392", "lon": "79.8613", "alt_km": "35696.3"}, {"name": "TIANLIAN 2-05", "norad": "63662", "lat": "-4.2365", "lon": "20.4138", "alt_km": "35787.0"}, {"name": "CHINASAT 3B", "norad": "64062", "lat": "-0.0128", "lon": "167.3117", "alt_km": "35804.5"}, {"name": "CHINASAT 9C", "norad": "64470", "lat": "0.0080", "lon": "92.2452", "alt_km": "35796.2"}, {"name": "FENGYUN 4C", "norad": "67246", "lat": "0.0032", "lon": "132.7822", "alt_km": "35787.1"}];
+const data = [{"name": "ZHONGXING-9", "norad": "33051", "lat": "-0.0309", "lon": "92.3977", "alt_km": "35798.9", "epoch_raw": "26205.62857458", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:05:08 UTC", "epoch_iso": "2026-07-24T15:05:08.843712Z"}, {"name": "BEIDOU-2 G1", "norad": "36287", "lat": "-4.2313", "lon": "140.3645", "alt_km": "35782.7", "epoch_raw": "26205.56669427", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 13:36:02 UTC", "epoch_iso": "2026-07-24T13:36:02.384928Z"}, {"name": "BEIDOU-2 G3", "norad": "36590", "lat": "-0.9525", "lon": "79.5394", "alt_km": "35815.8", "epoch_raw": "26205.62606124", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:01:31 UTC", "epoch_iso": "2026-07-24T15:01:31.691136Z"}, {"name": "BEIDOU-2 IGSO-1", "norad": "36828", "lat": "46.2947", "lon": "120.2750", "alt_km": "35870.9", "epoch_raw": "26203.83497221", "epoch_day": "2026年203日目", "epoch_utc": "2026/07/22 20:02:21 UTC", "epoch_iso": "2026-07-22T20:02:21.598944Z"}, {"name": "BEIDOU-2 G4", "norad": "37210", "lat": "-3.7510", "lon": "160.0192", "alt_km": "35783.4", "epoch_raw": "26205.90975560", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 21:50:02 UTC", "epoch_iso": "2026-07-24T21:50:02.883840Z"}, {"name": "BEIDOU-2 IGSO-2", "norad": "37256", "lat": "7.8400", "lon": "104.9886", "alt_km": "36006.9", "epoch_raw": "26202.87819282", "epoch_day": "2026年202日目", "epoch_utc": "2026/07/21 21:04:35 UTC", "epoch_iso": "2026-07-21T21:04:35.859648Z"}, {"name": "BEIDOU-2 IGSO-3", "norad": "37384", "lat": "-50.1615", "lon": "84.8608", "alt_km": "35724.7", "epoch_raw": "26202.49436278", "epoch_day": "2026年202日目", "epoch_utc": "2026/07/21 11:51:52 UTC", "epoch_iso": "2026-07-21T11:51:52.944192Z"}, {"name": "ZHONGXING-10", "norad": "37677", "lat": "0.0806", "lon": "85.5546", "alt_km": "35799.7", "epoch_raw": "26205.62727458", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:03:16 UTC", "epoch_iso": "2026-07-24T15:03:16.523712Z"}, {"name": "BEIDOU-2 IGSO-4", "norad": "37763", "lat": "53.0328", "lon": "101.0207", "alt_km": "36218.4", "epoch_raw": "26204.34647517", "epoch_day": "2026年204日目", "epoch_utc": "2026/07/23 08:18:55 UTC", "epoch_iso": "2026-07-23T08:18:55.454688Z"}, {"name": "BEIDOU-2 IGSO-5", "norad": "37948", "lat": "-4.0443", "lon": "93.7681", "alt_km": "36113.6", "epoch_raw": "26183.72937883", "epoch_day": "2026年183日目", "epoch_utc": "2026/07/02 17:30:18 UTC", "epoch_iso": "2026-07-02T17:30:18.330912Z"}, {"name": "BEIDOU-2 G5", "norad": "38091", "lat": "1.0869", "lon": "58.6492", "alt_km": "35794.5", "epoch_raw": "26205.62190123", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 14:55:32 UTC", "epoch_iso": "2026-07-24T14:55:32.266272Z"}, {"name": "APSTAR-7", "norad": "38107", "lat": "0.0064", "lon": "76.5359", "alt_km": "35793.8", "epoch_raw": "26205.62545457", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:00:39 UTC", "epoch_iso": "2026-07-24T15:00:39.274848Z"}, {"name": "ZHONGXING-2A", "norad": "38352", "lat": "-0.2442", "lon": "98.2608", "alt_km": "35792.5", "epoch_raw": "26205.62952793", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:06:31 UTC", "epoch_iso": "2026-07-24T15:06:31.213152Z"}, {"name": "BEIDOU-2 G6", "norad": "38953", "lat": "-0.3628", "lon": "83.9795", "alt_km": "35816.7", "epoch_raw": "26205.62692791", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:02:46 UTC", "epoch_iso": "2026-07-24T15:02:46.571424Z"}, {"name": "ZHONGXING-12", "norad": "39017", "lat": "0.0063", "lon": "87.4963", "alt_km": "35796.5", "epoch_raw": "26203.84553722", "epoch_day": "2026年203日目", "epoch_utc": "2026/07/22 20:17:34 UTC", "epoch_iso": "2026-07-22T20:17:34.415808Z"}, {"name": "ZHONGXING-11", "norad": "39157", "lat": "-0.0182", "lon": "97.9143", "alt_km": "35796.4", "epoch_raw": "26205.62952793", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:06:31 UTC", "epoch_iso": "2026-07-24T15:06:31.213152Z"}, {"name": "FENGYUN 2G", "norad": "40367", "lat": "-2.0561", "lon": "99.5265", "alt_km": "35771.5", "epoch_raw": "26205.55877642", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 13:24:38 UTC", "epoch_iso": "2026-07-24T13:24:38.282688Z"}, {"name": "BEIDOU-3S IGSO-1S", "norad": "40549", "lat": "-21.4353", "lon": "101.5415", "alt_km": "35903.5", "epoch_raw": "26203.86188105", "epoch_day": "2026年203日目", "epoch_utc": "2026/07/22 20:41:06 UTC", "epoch_iso": "2026-07-22T20:41:06.522720Z"}, {"name": "BEIDOU-3S IGSO-2S", "norad": "40938", "lat": "5.9105", "lon": "89.8503", "alt_km": "36069.0", "epoch_raw": "26205.62848792", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:05:01 UTC", "epoch_iso": "2026-07-24T15:05:01.356288Z"}, {"name": "APSTAR-9", "norad": "40982", "lat": "-0.0067", "lon": "142.0057", "alt_km": "35797.4", "epoch_raw": "26205.41725691", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 10:00:50 UTC", "epoch_iso": "2026-07-24T10:00:50.997024Z"}, {"name": "ZHONGXING-2C", "norad": "41021", "lat": "-0.0729", "lon": "103.4841", "alt_km": "35787.0", "epoch_raw": "26205.60521354", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 14:31:30 UTC", "epoch_iso": "2026-07-24T14:31:30.449856Z"}, {"name": "BEIDOU-2 IGSO-6", "norad": "41434", "lat": "-38.7693", "lon": "71.3297", "alt_km": "35561.8", "epoch_raw": "26177.11016981", "epoch_day": "2026年177日目", "epoch_utc": "2026/06/26 02:38:38 UTC", "epoch_iso": "2026-06-26T02:38:38.671584Z"}, {"name": "BEIDOU-2 G7", "norad": "41586", "lat": "-1.0473", "lon": "110.4823", "alt_km": "35809.4", "epoch_raw": "26205.91695729", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 22:00:25 UTC", "epoch_iso": "2026-07-24T22:00:25.109856Z"}, {"name": "TIANLIAN 1-04", "norad": "41869", "lat": "-0.9850", "lon": "176.8079", "alt_km": "35972.6", "epoch_raw": "26205.64533913", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:29:17 UTC", "epoch_iso": "2026-07-24T15:29:17.300832Z"}, {"name": "FENGYUN 4A", "norad": "41882", "lat": "-1.4901", "lon": "123.5923", "alt_km": "35771.1", "epoch_raw": "26205.42351343", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 10:09:51 UTC", "epoch_iso": "2026-07-24T10:09:51.560352Z"}, {"name": "CHINASAT 16 (SJ-13)", "norad": "42662", "lat": "-0.0411", "lon": "110.5781", "alt_km": "35779.0", "epoch_raw": "26205.24280844", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 05:49:38 UTC", "epoch_iso": "2026-07-24T05:49:38.649216Z"}, {"name": "APSTAR-6C", "norad": "43450", "lat": "-0.0219", "lon": "134.0244", "alt_km": "35785.9", "epoch_raw": "26205.17128234", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 04:06:38 UTC", "epoch_iso": "2026-07-24T04:06:38.794176Z"}, {"name": "FENGYUN 2H", "norad": "43491", "lat": "0.3206", "lon": "79.0002", "alt_km": "35781.8", "epoch_raw": "26205.89920890", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 21:34:51 UTC", "epoch_iso": "2026-07-24T21:34:51.648960Z"}, {"name": "BEIDOU-2 IGSO-7", "norad": "43539", "lat": "47.5572", "lon": "119.6467", "alt_km": "36031.7", "epoch_raw": "26197.82826650", "epoch_day": "2026年197日目", "epoch_utc": "2026/07/16 19:52:42 UTC", "epoch_iso": "2026-07-16T19:52:42.225600Z"}, {"name": "BEIDOU-3 G1", "norad": "43683", "lat": "-2.5166", "lon": "159.8989", "alt_km": "35804.4", "epoch_raw": "26205.90889109", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 21:48:48 UTC", "epoch_iso": "2026-07-24T21:48:48.190176Z"}, {"name": "ZHONGXING-2D", "norad": "43920", "lat": "-0.0045", "lon": "130.0366", "alt_km": "35786.2", "epoch_raw": "26205.41795855", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 10:01:51 UTC", "epoch_iso": "2026-07-24T10:01:51.618720Z"}, {"name": "ZHONGXING-6C", "norad": "44067", "lat": "-0.0792", "lon": "130.3020", "alt_km": "35809.8", "epoch_raw": "26203.92536367", "epoch_day": "2026年203日目", "epoch_utc": "2026/07/22 22:12:31 UTC", "epoch_iso": "2026-07-22T22:12:31.421088Z"}, {"name": "TIANLIAN 2-01", "norad": "44076", "lat": "0.1284", "lon": "77.0304", "alt_km": "35786.2", "epoch_raw": "26205.84141976", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 20:11:38 UTC", "epoch_iso": "2026-07-24T20:11:38.667264Z"}, {"name": "BEIDOU-3 IGSO-1", "norad": "44204", "lat": "-55.9958", "lon": "107.7486", "alt_km": "35711.1", "epoch_raw": "26203.94325155", "epoch_day": "2026年203日目", "epoch_utc": "2026/07/22 22:38:16 UTC", "epoch_iso": "2026-07-22T22:38:16.933920Z"}, {"name": "BEIDOU-2 G8", "norad": "44231", "lat": "-1.5939", "lon": "144.4110", "alt_km": "35756.7", "epoch_raw": "26205.63892576", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:20:03 UTC", "epoch_iso": "2026-07-24T15:20:03.185664Z"}, {"name": "BEIDOU-3 IGSO-2", "norad": "44337", "lat": "36.7324", "lon": "133.7337", "alt_km": "35754.8", "epoch_raw": "26204.77821130", "epoch_day": "2026年204日目", "epoch_utc": "2026/07/23 18:40:37 UTC", "epoch_iso": "2026-07-23T18:40:37.456320Z"}, {"name": "BEIDOU-3 G2", "norad": "45344", "lat": "-1.2898", "lon": "80.0281", "alt_km": "35793.7", "epoch_raw": "26205.62614791", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:01:39 UTC", "epoch_iso": "2026-07-24T15:01:39.179424Z"}, {"name": "BEIDOU-3 G3", "norad": "45807", "lat": "-1.5351", "lon": "110.5126", "alt_km": "35788.2", "epoch_raw": "26205.91695672", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 22:00:25 UTC", "epoch_iso": "2026-07-24T22:00:25.060608Z"}, {"name": "APSTAR-6D", "norad": "45863", "lat": "-0.0412", "lon": "134.0113", "alt_km": "35792.0", "epoch_raw": "26205.99330400", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 23:50:21 UTC", "epoch_iso": "2026-07-24T23:50:21.465600Z"}, {"name": "FENGYUN 4B", "norad": "48808", "lat": "-0.0923", "lon": "104.6199", "alt_km": "35778.6", "epoch_raw": "26204.84687843", "epoch_day": "2026年204日目", "epoch_utc": "2026/07/23 20:19:30 UTC", "epoch_iso": "2026-07-23T20:19:30.296352Z"}, {"name": "TIANLIAN 1-05", "norad": "49011", "lat": "1.6040", "lon": "16.8229", "alt_km": "35780.6", "epoch_raw": "26205.91269985", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 21:54:17 UTC", "epoch_iso": "2026-07-24T21:54:17.267040Z"}, {"name": "ZHONGXING-2E", "norad": "49062", "lat": "-0.0115", "lon": "98.0814", "alt_km": "35790.4", "epoch_raw": "26205.84630366", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 20:18:40 UTC", "epoch_iso": "2026-07-24T20:18:40.636224Z"}, {"name": "CHINASAT 9B", "norad": "49125", "lat": "-0.0184", "lon": "101.4612", "alt_km": "35793.4", "epoch_raw": "26205.27614360", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 06:37:38 UTC", "epoch_iso": "2026-07-24T06:37:38.807040Z"}, {"name": "ZHONGXING-1D", "norad": "49505", "lat": "-0.0049", "lon": "130.1810", "alt_km": "35785.3", "epoch_raw": "26205.41795855", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 10:01:51 UTC", "epoch_iso": "2026-07-24T10:01:51.618720Z"}, {"name": "TIANLIAN 2-02", "norad": "50005", "lat": "-0.9035", "lon": "170.9881", "alt_km": "35788.3", "epoch_raw": "26205.95650110", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 22:57:21 UTC", "epoch_iso": "2026-07-24T22:57:21.695040Z"}, {"name": "ZHONGXING-6D", "norad": "52255", "lat": "-0.0234", "lon": "125.0540", "alt_km": "35784.5", "epoch_raw": "26204.81500935", "epoch_day": "2026年204日目", "epoch_utc": "2026/07/23 19:33:36 UTC", "epoch_iso": "2026-07-23T19:33:36.807840Z"}, {"name": "TIANLIAN 2-03", "norad": "53100", "lat": "0.7512", "lon": "10.5882", "alt_km": "35785.3", "epoch_raw": "26205.54114934", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 12:59:15 UTC", "epoch_iso": "2026-07-24T12:59:15.302976Z"}, {"name": "ZHONGXING-1E", "norad": "53813", "lat": "-0.0067", "lon": "81.4260", "alt_km": "35783.2", "epoch_raw": "26204.91356345", "epoch_day": "2026年204日目", "epoch_utc": "2026/07/23 21:55:31 UTC", "epoch_iso": "2026-07-23T21:55:31.882080Z"}, {"name": "ZHONGXING-19", "norad": "54230", "lat": "-0.0383", "lon": "163.1805", "alt_km": "35799.7", "epoch_raw": "26205.64265245", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:25:25 UTC", "epoch_iso": "2026-07-24T15:25:25.171680Z"}, {"name": "APSTAR-6E", "norad": "55239", "lat": "0.0035", "lon": "134.0553", "alt_km": "35791.1", "epoch_raw": "26204.92396350", "epoch_day": "2026年204日目", "epoch_utc": "2026/07/23 22:10:30 UTC", "epoch_iso": "2026-07-23T22:10:30.446400Z"}, {"name": "ZHONGXING-26", "norad": "55686", "lat": "-0.0688", "lon": "125.0137", "alt_km": "35802.2", "epoch_raw": "26204.28066921", "epoch_day": "2026年204日目", "epoch_utc": "2026/07/23 06:44:09 UTC", "epoch_iso": "2026-07-23T06:44:09.819744Z"}, {"name": "BEIDOU-3 G4", "norad": "56564", "lat": "-0.2340", "lon": "140.0722", "alt_km": "35805.8", "epoch_raw": "26205.63805910", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:18:48 UTC", "epoch_iso": "2026-07-24T15:18:48.306240Z"}, {"name": "ZHONGXING-6E", "norad": "58253", "lat": "-0.0145", "lon": "115.4422", "alt_km": "35800.3", "epoch_raw": "26204.08100338", "epoch_day": "2026年204日目", "epoch_utc": "2026/07/23 01:56:38 UTC", "epoch_iso": "2026-07-23T01:56:38.692032Z"}, {"name": "ZHONGXING-3A", "norad": "60179", "lat": "0.0059", "lon": "101.5798", "alt_km": "35789.6", "epoch_raw": "26203.77701194", "epoch_day": "2026年203日目", "epoch_utc": "2026/07/22 18:38:53 UTC", "epoch_iso": "2026-07-22T18:38:53.831616Z"}, {"name": "ZHONGXING-4A", "norad": "60606", "lat": "0.4245", "lon": "118.2179", "alt_km": "35786.8", "epoch_raw": "26205.55631148", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 13:21:05 UTC", "epoch_iso": "2026-07-24T13:21:05.311872Z"}, {"name": "ZHONGXING-10R", "norad": "63075", "lat": "0.0118", "lon": "110.5570", "alt_km": "35798.8", "epoch_raw": "26205.63460009", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:13:49 UTC", "epoch_iso": "2026-07-24T15:13:49.447776Z"}, {"name": "TIANLIAN 2-04", "norad": "63361", "lat": "-1.5043", "lon": "79.9222", "alt_km": "35671.1", "epoch_raw": "26205.62614791", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 15:01:39 UTC", "epoch_iso": "2026-07-24T15:01:39.179424Z"}, {"name": "TIANLIAN 2-05", "norad": "63662", "lat": "-4.3360", "lon": "20.4605", "alt_km": "35790.5", "epoch_raw": "26203.88607584", "epoch_day": "2026年203日目", "epoch_utc": "2026/07/22 21:15:56 UTC", "epoch_iso": "2026-07-22T21:15:56.952576Z"}, {"name": "CHINASAT 3B", "norad": "64062", "lat": "-0.0137", "lon": "167.2965", "alt_km": "35804.1", "epoch_raw": "26206.15947420", "epoch_day": "2026年206日目", "epoch_utc": "2026/07/25 03:49:38 UTC", "epoch_iso": "2026-07-25T03:49:38.570880Z"}, {"name": "CHINASAT 9C", "norad": "64470", "lat": "-0.0033", "lon": "92.2356", "alt_km": "35799.2", "epoch_raw": "26205.83031006", "epoch_day": "2026年205日目", "epoch_utc": "2026/07/24 19:55:38 UTC", "epoch_iso": "2026-07-24T19:55:38.789184Z"}, {"name": "FENGYUN 4C", "norad": "67246", "lat": "-0.0045", "lon": "132.7815", "alt_km": "35787.9", "epoch_raw": "26194.65865777", "epoch_day": "2026年194日目", "epoch_utc": "2026/07/13 15:48:28 UTC", "epoch_iso": "2026-07-13T15:48:28.031328Z"}];
 
 const map =
     L.map("map").setView([0, 120], 2);
+
 
 L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -61,6 +74,7 @@ L.tileLayer(
 ).addTo(map);
 
 
+
 function catOf(r) {
 
     const n =
@@ -69,6 +83,7 @@ function catOf(r) {
     const lat =
         Math.abs(parseFloat(r.lat || "0"));
 
+
     if (lat > 3)
         return [
             "#dd6b20",
@@ -76,12 +91,14 @@ function catOf(r) {
             "南北方向への移動が大きい衛星です。傾斜軌道または軌道変更中の可能性があります。"
         ];
 
+
     if (n.includes("TIANLIAN"))
         return [
             "#2b6cb0",
             "データ中継",
             "天鏈（Tianlian）系列のデータ中継衛星候補です。"
         ];
+
 
     if (
         n.includes("CHINASAT") ||
@@ -95,6 +112,7 @@ function catOf(r) {
             "中国系の通信衛星候補です。"
         ];
 
+
     if (
         n.includes("FENGYUN") ||
         n.includes("FY-")
@@ -104,6 +122,7 @@ function catOf(r) {
             "気象・観測",
             "風雲（Fengyun）系列の気象・観測衛星候補です。"
         ];
+
 
     if (
         n.includes("BEIDOU") ||
@@ -115,6 +134,7 @@ function catOf(r) {
             "北斗（BeiDou）系列の測位衛星候補です。"
         ];
 
+
     return [
         "#718096",
         "未分類",
@@ -123,9 +143,112 @@ function catOf(r) {
 }
 
 
+
+function ageOf(epochIso) {
+
+    const epoch = new Date(epochIso);
+
+    if (Number.isNaN(epoch.getTime())) {
+        return "不明";
+    }
+
+    let diff =
+        Date.now() - epoch.getTime();
+
+    const future =
+        diff < 0;
+
+    diff =
+        Math.abs(diff);
+
+    const totalMinutes =
+        Math.floor(diff / 60000);
+
+    const days =
+        Math.floor(totalMinutes / 1440);
+
+    const hours =
+        Math.floor((totalMinutes % 1440) / 60);
+
+    const minutes =
+        totalMinutes % 60;
+
+    let text = "";
+
+    if (days > 0) {
+        text += days + "日 ";
+    }
+
+    text +=
+        hours + "時間" +
+        minutes + "分";
+
+    return future
+        ? "未来 " + text
+        : text;
+}
+
+
+
+function freshnessOf(epochIso) {
+
+    const epoch = new Date(epochIso);
+
+    if (Number.isNaN(epoch.getTime())) {
+        return {
+            color: "#718096",
+            icon: "⚪",
+            text: "不明"
+        };
+    }
+
+    const ageHours =
+        (Date.now() - epoch.getTime())
+        / 3600000;
+
+
+    if (ageHours < 24) {
+        return {
+            color: "#16a34a",
+            icon: "🟢",
+            text: "新鮮"
+        };
+    }
+
+
+    if (ageHours < 72) {
+        return {
+            color: "#ca8a04",
+            icon: "🟡",
+            text: "やや古い"
+        };
+    }
+
+
+    if (ageHours < 168) {
+        return {
+            color: "#ea580c",
+            icon: "🟠",
+            text: "古い"
+        };
+    }
+
+
+    return {
+        color: "#dc2626",
+        icon: "🔴",
+        text: "要注意"
+    };
+}
+
+
+
 function popupOf(r) {
 
     const c = catOf(r);
+
+    const fresh =
+        freshnessOf(r.epoch_iso);
 
     return (
         "<b>" + r.name + "</b><br>" +
@@ -158,6 +281,29 @@ function popupOf(r) {
 
         "<hr>" +
 
+        "<b>TLEエポック：</b>" +
+        r.epoch_day + "<br>" +
+
+        "<b>エポック日時：</b>" +
+        r.epoch_utc + "<br>" +
+
+        "<b>経過時間：</b>" +
+        ageOf(r.epoch_iso) + "<br>" +
+
+        "<b>TLE鮮度：</b>" +
+
+        "<span style='" +
+        "font-weight:bold;" +
+        "color:" + fresh.color + ";" +
+        "'>" +
+
+        fresh.icon + " " +
+        fresh.text +
+
+        "</span><br>" +
+
+        "<hr>" +
+
         "<b>国・地域：</b>中国系候補<br>" +
 
         "<b>分類：</b>" +
@@ -167,6 +313,7 @@ function popupOf(r) {
         c[2]
     );
 }
+
 
 
 data.forEach(r => {
@@ -188,7 +335,9 @@ data.forEach(r => {
     )
     .addTo(map)
     .bindPopup(popupOf(r));
+
 });
+
 
 
 const legend =
