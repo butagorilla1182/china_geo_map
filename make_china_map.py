@@ -4,7 +4,6 @@ from skyfield.api import load, EarthSatellite
 
 tle_path = Path("china_clean.tle")
 out_html = Path("china_map.html")
-index_html = Path("index.html")
 
 lines = tle_path.read_text(encoding="utf-8", errors="ignore").splitlines()
 
@@ -129,7 +128,6 @@ legend.addTo(map);
 '''
 
 out_html.write_text(html, encoding="utf-8")
-index_html.write_text('<meta http-equiv="refresh" content="0; url=china_map.html">\n', encoding="utf-8")
 
 print(f"saved {out_html}")
 print(f"count: {len(rows)}")
