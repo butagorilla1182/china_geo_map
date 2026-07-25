@@ -95,6 +95,18 @@ jobs:
           print("Unique GEO/GPZ satellites:", len(sats))
           PY
 
+      - name: Download CelesTrak SATCAT
+        run: |
+          set -euo pipefail
+
+          curl -fL --retry 3 --retry-delay 5 \
+            "https://celestrak.org/satcat/records.php?GROUP=GEO&FORMAT=CSV&ONORBIT=1" \
+            -o satcat_geo.csv
+
+          curl -fL --retry 3 --retry-delay 5 \
+            "https://celestrak.org/satcat/records.php?SPECIAL=gpz&FORMAT=CSV&ONORBIT=1" \
+            -o satcat_gpz.csv
+
       - name: Generate China GEO data and map
         run: |
           python make_china_csv.py
@@ -103,8 +115,16 @@ jobs:
       - name: Commit updated China GEO files
         run: |
           TZ=Asia/Tokyo date '+%Y/%m/%d %H:%M:%S JST' > last_updated.txt
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add geo.tle china_clean.tle china_geo.csv china_map.html last_updated.txt
+
+          git add \
+            geo.tle \
+            china_clean.tle \
+            china_geo.csv \
+            china_map.html \
+            last_updated.txt
+
           git commit -m "Update China GEO data" || echo "No changes to commit"
           git push
