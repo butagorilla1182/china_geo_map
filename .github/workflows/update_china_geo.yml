@@ -26,9 +26,74 @@ jobs:
           python -m pip install --upgrade pip
           pip install skyfield
 
-      - name: Download latest GEO TLE from CelesTrak
+      - name: Download latest GEO and GPZ TLE
         run: |
-          curl -L "https://celestrak.org/NORAD/elements/gp.php?GROUP=geo&FORMAT=tle" -o geo.tle
+          set -euo pipefail
+
+          curl -fL --retry 3 --retry-delay 5 \
+            "https://celestrak.org/NORAD/elements/gp.php?GROUP=GEO&FORMAT=TLE" \
+            -o geo_group.tle
+
+          curl -fL --retry 3 --retry-delay 5 \
+            "https://celestrak.org/NORAD/elements/gp.php?SPECIAL=GPZ&FORMAT=TLE" \
+            -o gpz.tle
+
+          cat geo_group.tle gpz.tle > combined.tle
+
+          python - <<'PY'
+          from pathlib import Path
+
+          lines = [
+              x.strip()
+              for x in Path("combined.tle").read_text(
+                  encoding="utf-8",
+                  errors="ignore"
+              ).splitlines()
+              if x.strip()
+          ]
+
+          sats = {}
+
+          def epoch_key(line1):
+              raw = line1[18:32].strip()
+              yy = int(raw[:2])
+              year = 2000 + yy if yy < 57 else 1900 + yy
+              day = float(raw[2:])
+              return (year, day)
+
+          i = 0
+
+          while i < len(lines) - 2:
+              name = lines[i]
+              l1 = lines[i + 1]
+              l2 = lines[i + 2]
+
+              if l1.startswith("1 ") and l2.startswith("2 "):
+                  norad = l1[2:7].strip()
+                  candidate = (name, l1, l2)
+
+                  if (
+                      norad not in sats
+                      or epoch_key(l1) > epoch_key(sats[norad][1])
+                  ):
+                      sats[norad] = candidate
+
+                  i += 3
+              else:
+                  i += 1
+
+          output = []
+
+          for name, l1, l2 in sats.values():
+              output.extend([name, l1, l2])
+
+          Path("geo.tle").write_text(
+              "\n".join(output) + "\n",
+              encoding="utf-8"
+          )
+
+          print("Unique GEO/GPZ satellites:", len(sats))
+          PY
 
       - name: Generate China GEO data and map
         run: |
