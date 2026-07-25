@@ -39,17 +39,13 @@ for i in range(0, len(lines) - 2, 3):
         "alt_km": f"{alt_km:.1f}",
     })
 
-
 markers = json.dumps(rows, ensure_ascii=False)
 
-
-html = f'''<!doctype html>
+html = """<!doctype html>
 <html lang="ja">
 
 <head>
-
 <meta charset="utf-8">
-
 <title>中国 GEO 衛星マップ</title>
 
 <meta
@@ -65,69 +61,56 @@ html = f'''<!doctype html>
 </script>
 
 <style>
-
-body {{
+body {
     margin: 0;
     font-family: sans-serif;
     background: #f7f3ea;
-}}
+}
 
-.header {{
+.header {
     padding: 16px;
-}}
+}
 
-#map {{
+#map {
     height: 75vh;
     width: 100%;
-}}
-
+}
 </style>
 
 </head>
 
-
 <body>
 
 <div class="header">
-
 <h2>中国 GEO 衛星マップ</h2>
-
-<div>
-表示衛星数：{len(rows)} 機
+<div>表示衛星数：__COUNT__ 機</div>
 </div>
-
-</div>
-
 
 <div id="map"></div>
 
-
 <script>
 
-const data = {markers};
+const data = __MARKERS__;
 
 const map =
     L.map("map").setView([0, 120], 2);
 
-
 L.tileLayer(
-    "https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png",
-    {{
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
         maxZoom: 6,
         attribution: "OpenStreetMap"
-    }}
+    }
 ).addTo(map);
 
 
-
-function catOf(r) {{
+function catOf(r) {
 
     const n =
         String(r.name || "").toUpperCase();
 
     const lat =
         Math.abs(parseFloat(r.lat || "0"));
-
 
     if (lat > 3)
         return [
@@ -136,14 +119,12 @@ function catOf(r) {{
             "南北方向への移動が大きい衛星です。傾斜軌道または軌道変更中の可能性があります。"
         ];
 
-
     if (n.includes("TIANLIAN"))
         return [
             "#2b6cb0",
             "データ中継",
             "天鏈（Tianlian）系列のデータ中継衛星候補です。"
         ];
-
 
     if (
         n.includes("CHINASAT") ||
@@ -157,7 +138,6 @@ function catOf(r) {{
             "中国系の通信衛星候補です。"
         ];
 
-
     if (
         n.includes("FENGYUN") ||
         n.includes("FY-")
@@ -167,7 +147,6 @@ function catOf(r) {{
             "気象・観測",
             "風雲（Fengyun）系列の気象・観測衛星候補です。"
         ];
-
 
     if (
         n.includes("BEIDOU") ||
@@ -179,7 +158,6 @@ function catOf(r) {{
             "北斗（BeiDou）系列の測位衛星候補です。"
         ];
 
-
     return [
         "#718096",
         "未分類",
@@ -188,8 +166,7 @@ function catOf(r) {{
 }
 
 
-
-function popupOf(r) {{
+function popupOf(r) {
 
     const c = catOf(r);
 
@@ -235,8 +212,7 @@ function popupOf(r) {{
 }
 
 
-
-data.forEach(r => {{
+data.forEach(r => {
 
     const c = catOf(r);
 
@@ -245,28 +221,26 @@ data.forEach(r => {{
             parseFloat(r.lat),
             parseFloat(r.lon)
         ],
-        {{
+        {
             radius: 8,
             color: "#1a202c",
             weight: 1,
             fillColor: c[0],
             fillOpacity: 0.9
-        }}
+        }
     )
     .addTo(map)
     .bindPopup(popupOf(r));
-
 });
 
 
-
 const legend =
-    L.control({{
+    L.control({
         position: "bottomleft"
-    }});
+    });
 
 
-legend.onAdd = function() {{
+legend.onAdd = function() {
 
     const div =
         L.DomUtil.create(
@@ -285,35 +259,17 @@ legend.onAdd = function() {{
 
         "<b>衛星カテゴリ</b><br>" +
 
-        "<div>" +
-        "<span style='display:inline-block;width:12px;height:12px;background:#2b6cb0;border-radius:50%;margin-right:6px;'></span>" +
-        "データ中継" +
-        "</div>" +
+        "<div><span style='display:inline-block;width:12px;height:12px;background:#2b6cb0;border-radius:50%;margin-right:6px;'></span>データ中継</div>" +
 
-        "<div>" +
-        "<span style='display:inline-block;width:12px;height:12px;background:#c53030;border-radius:50%;margin-right:6px;'></span>" +
-        "中国通信衛星" +
-        "</div>" +
+        "<div><span style='display:inline-block;width:12px;height:12px;background:#c53030;border-radius:50%;margin-right:6px;'></span>中国通信衛星</div>" +
 
-        "<div>" +
-        "<span style='display:inline-block;width:12px;height:12px;background:#2f855a;border-radius:50%;margin-right:6px;'></span>" +
-        "気象・観測" +
-        "</div>" +
+        "<div><span style='display:inline-block;width:12px;height:12px;background:#2f855a;border-radius:50%;margin-right:6px;'></span>気象・観測</div>" +
 
-        "<div>" +
-        "<span style='display:inline-block;width:12px;height:12px;background:#6b46c1;border-radius:50%;margin-right:6px;'></span>" +
-        "測位・航法" +
-        "</div>" +
+        "<div><span style='display:inline-block;width:12px;height:12px;background:#6b46c1;border-radius:50%;margin-right:6px;'></span>測位・航法</div>" +
 
-        "<div>" +
-        "<span style='display:inline-block;width:12px;height:12px;background:#dd6b20;border-radius:50%;margin-right:6px;'></span>" +
-        "移動中・傾斜軌道" +
-        "</div>" +
+        "<div><span style='display:inline-block;width:12px;height:12px;background:#dd6b20;border-radius:50%;margin-right:6px;'></span>移動中・傾斜軌道</div>" +
 
-        "<div>" +
-        "<span style='display:inline-block;width:12px;height:12px;background:#718096;border-radius:50%;margin-right:6px;'></span>" +
-        "未分類" +
-        "</div>";
+        "<div><span style='display:inline-block;width:12px;height:12px;background:#718096;border-radius:50%;margin-right:6px;'></span>未分類</div>";
 
     return div;
 };
@@ -325,8 +281,17 @@ legend.addTo(map);
 
 </body>
 </html>
-'''
+"""
 
+html = html.replace(
+    "__COUNT__",
+    str(len(rows))
+)
+
+html = html.replace(
+    "__MARKERS__",
+    markers
+)
 
 out_html.write_text(
     html,
