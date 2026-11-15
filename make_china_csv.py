@@ -18,6 +18,21 @@ satcat_files = [
 # 中国系GEO衛星 抽出キーワード
 # =========================================================
 
+# =========================================================
+# ミッション終了した衛星の除外
+# CelesTrak SATCAT の OPS_STATUS_CODE で判定する
+#   "-" = 運用終了（Nonoperational）、"D" = 落下済み
+# 古い衛星も表示したいときは EXCLUDE_STATUS = set() にする
+# =========================================================
+
+EXCLUDE_STATUS = {"-", "D"}
+
+# この年より前に打ち上げられた衛星は除外する（0にすると年では絞らない）
+# 状態が「不明」のまま残っている古い衛星を外すため
+
+MIN_LAUNCH_YEAR = 2000
+
+
 KEYWORDS = [
     "CHINASAT",
     "ZHONGXING",
@@ -147,6 +162,30 @@ for satcat_path in satcat_files:
                             ""
                         )
                     ).strip(),
+
+                "owner":
+                    str(
+                        row.get(
+                            "OWNER",
+                            ""
+                        )
+                    ).strip().upper(),
+
+                "object_type":
+                    str(
+                        row.get(
+                            "OBJECT_TYPE",
+                            ""
+                        )
+                    ).strip().upper(),
+
+                "status":
+                    str(
+                        row.get(
+                            "OPS_STATUS_CODE",
+                            ""
+                        )
+                    ).strip().upper(),
             }
 
 
@@ -231,7 +270,28 @@ while i < len(lines) - 2:
         continue
 
 
-    if is_china_sat(name):
+    # 名前キーワード、またはSATCATの所有国（PRC）で抽出
+    if (
+        (
+            is_china_sat(name)
+            or (
+                satcat.get(line1[2:7].strip(), {}).get("owner") == "PRC"
+                and satcat.get(line1[2:7].strip(), {}).get("object_type") == "PAY"
+            )
+        )
+        and not name.upper().startswith("TJS")
+        and "TONGXIN JISHU SHIYAN" not in name.upper()
+        and satcat.get(line1[2:7].strip(), {}).get("status") not in EXCLUDE_STATUS
+        and satcat.get(line1[2:7].strip(), {}).get("object_type", "PAY") in ("PAY", "")
+        and not any(
+            word in name.upper()
+            for word in (" DEB", " AKM", " R/B")
+        )
+        and (
+            not satcat.get(line1[2:7].strip(), {}).get("launch_date", "")[:4].isdigit()
+            or int(satcat.get(line1[2:7].strip(), {}).get("launch_date", "")[:4]) >= MIN_LAUNCH_YEAR
+        )
+    ):
 
         try:
 
